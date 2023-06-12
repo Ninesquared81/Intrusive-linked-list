@@ -63,7 +63,8 @@ struct ListNode *pop_index(struct List *list, int index) {
 }
 
 void print_list(struct List *list)  {
-    for (struct ListNode **node_ptr; *node_ptr != NULL; 
+    for (struct ListNode **node_ptr = &list->head;
+        *node_ptr != NULL; 
         node_ptr = &(*node_ptr)->next) {
             printf("[ ");
             list->print(*node_ptr);
