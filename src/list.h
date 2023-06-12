@@ -3,24 +3,29 @@
 
 
 typedef int (*Comparator)(struct ListNode *a, struct ListNode *b);
+typedef void (*Printer)(struct ListNode *node);
 
 
 struct ListNode {
     struct ListNode *next;
 };
 
-struct LinkedList {
+struct List {
     struct ListNode *head;
     struct ListNode **tail;
     Comparator compare;
+    Printer print;
 };
 
 
-void init_list(struct List *list, Comparator compare);
-struct List *get_item(struct List *list, int index);
+void init_list(struct List *list, Comparator compare, Printer print);
+
+struct ListNode *get_item(struct List *list, int index);
 int find(struct List *list, struct ListNode *item);
 
-struct List *insert_index(struct List *list, int index, struct ListNode *item);
-struct List *pop_index(struct List *list, int index);
+struct ListNode *insert_index(struct List *list, int index, struct ListNode *item);
+struct ListNode *pop_index(struct List *list, int index);
+
+void print_list(struct List *list);
 
 #endif
