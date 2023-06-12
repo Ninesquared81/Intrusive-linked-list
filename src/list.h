@@ -6,6 +6,8 @@
 #define NODE_TO_DATA(node, type, member) \
     ((type *)( (unsigned char *)node - offsetof(type, member) ))
 
+struct ListNode;
+
 typedef int (*Comparator)(struct ListNode *a, struct ListNode *b);
 typedef void (*Printer)(struct ListNode *node);
 
