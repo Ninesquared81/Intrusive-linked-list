@@ -1,6 +1,10 @@
 #ifndef LIST_H
 #define LIST_H
 
+#include <stddef.h>
+
+#define NODE_TO_DATA(node, type, member) \
+    ((type *)( (unsigned char *)node - offsetof(type, member) ))
 
 typedef int (*Comparator)(struct ListNode *a, struct ListNode *b);
 typedef void (*Printer)(struct ListNode *node);
