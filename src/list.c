@@ -5,7 +5,7 @@
 
 void init_list(struct List *list, Comparator compare, Printer print) {
     list->head = NULL;
-    list->tail = list->head;
+    list->tail = &list->head;
     list->compare = compare;
     list->print = print;
 }
