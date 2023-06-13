@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "list.h"
 
@@ -19,6 +20,12 @@ static void print(struct ListNode *node) {
         return;
     }
     printf("%d", NODE_TO_DATA(node, struct IntNode, node)->data);
+}
+
+static struct IntNode *new_int_node(int data) {
+    struct IntNode *new = malloc(sizeof *new);
+    new->data = data;
+    return new;
 }
 
 int main(void) {
@@ -86,6 +93,35 @@ int main(void) {
     printf("\n");
     print_list(&list);
     printf("\n");
-    
+
+    printf("\n\n");
+
+    struct List new_list;
+    init_list(&new_list, compare, print);
+    for (int i = 1; i <= 100; ++i) {
+        push_tail(&new_list, (struct ListNode *)new_int_node(i));
+    }
+    struct List sublists[3];
+    divide_list(&new_list, 3, sublists);
+    for (int i = 0; i < 3; ++i) {
+        printf("\nSublist %d:\n", i);
+        print_list(&sublists[i]);
+        printf("\n");
+    }
+    struct List concatenated = concatenate_lists(&sublists[0], &sublists[2]);
+    concatenated = concatenate_lists(&sublists[1], &concatenated);
+    printf("\nConcatenated:\n");
+    print_list(&concatenated);
+    printf("\n\n");
+    printf("Start removing nodes.\n");
+    {
+        struct IntNode *node = NULL;
+        while (node = (struct IntNode *)pop_head(&concatenated)) {
+            free(node);
+        }
+    }
+    printf("Finish removing nodes.\n");
+    print_list(&concatenated);
+    printf("\n");
     return 0;
 }
