@@ -27,8 +27,14 @@ struct List {
 
 void init_list(struct List *list, Comparator compare, Printer print);
 
+int index_of(struct List *list, struct ListNode **where);
+struct ListNode **where_index(struct List *list, int index);
+
 struct ListNode *get_item(struct List *list, int index);
-int find(struct List *list, struct ListNode *item);
+struct ListNode **find(struct List *list, struct ListNode *item);
+
+struct ListNode *insert_at(struct List *list, struct ListNode **where, struct ListNode *item);
+struct ListNode *remove_at(struct List *list, struct ListNode **where);
 
 struct ListNode *insert_index(struct List *list, int index, struct ListNode *item);
 struct ListNode *remove_index(struct List *list, int index);
@@ -38,10 +44,10 @@ void push_tail(struct List *list, struct ListNode *item);
 struct ListNode *pop_head(struct List *list);
 struct ListNode *pop_tail(struct List *list);
 
-struct ListNode *insert_sublist(struct List *list, int start_index, struct List *sublist);
-struct List remove_sublist(struct List *list, int start_index, int length);
+struct ListNode *insert_sublist(struct List *list, struct ListNode **start, struct List *sublist);
+struct List remove_sublist(struct List *list, struct ListNode **start, int length);
 
-void concatenate_lists(struct List *a, struct List *b);
+struct List concatenate_lists(struct List *a, struct List *b);
 struct List *divide_list(struct List *list, int n, struct List sublists[n]);
 
 void print_list(struct List *list);
