@@ -1,6 +1,6 @@
 CC = gcc
 
-CFLAGS = -I../src/ -g
+CFLAGS = -I../src/ -g -Werror
 
 test.exe: ../bin/list.o test.c
 	$(CC) $(CFLAGS) $(OUTPUT_OPTION) ../bin/list.o test.c
