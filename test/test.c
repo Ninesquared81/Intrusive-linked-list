@@ -35,12 +35,57 @@ int main(void) {
         insert_index(&list, i, &nodes[i].node);
     }
     print_list(&list);
-    printf("\n");
+    printf("\n\n");
     for (int i = 0; i < 3; ++i) {
-        list.print(pop_index(&list, 3));
+        list.print(remove_index(&list, 3));
         printf("\n");
         print_list(&list);
-        printf("\n");
+        printf("\n\n");
     }
+    printf("Pop tail:\n");
+    list.print(pop_tail(&list));
+    printf("\n");
+    print_list(&list);
+    printf("\nPush tail 42:\n");
+    push_tail(&list, (struct ListNode *)&(struct IntNode){.data = 42});
+    print_list(&list);
+    printf("\n\n");
+
+    printf("Pop head:\n");
+    list.print(pop_head(&list));
+    printf("\n");
+    print_list(&list);
+    printf("\nPush head 69:\n");
+    push_head(&list, (struct ListNode *)&(struct IntNode){.data = 69});
+    print_list(&list);
+    printf("\n");
+    
+    printf("Insert at end (not using special function) 420:\n");
+    insert_index(&list, list.length, (struct ListNode *)&(struct IntNode){.data = 420});
+    print_list(&list);
+    printf("\n");
+
+    printf("Insert at beginning 72:\n");
+    insert_index(&list, 0, (struct ListNode *)&(struct IntNode){.data = 72});
+    print_list(&list);
+    printf("\n");
+
+    printf("Insert at index 3 -1:\n");
+    insert_index(&list, 3, (struct ListNode *)&(struct IntNode){.data = -1});
+    print_list(&list);
+    printf("\n");
+
+    printf("Remove index 3:\n");
+    list.print(remove_index(&list, 3));
+    printf("\n");
+    print_list(&list);
+    printf("\n");
+
+    printf("Remove from beginning:\n");
+    list.print(remove_index(&list, 0));
+    printf("\n");
+    print_list(&list);
+    printf("\n");
+    
     return 0;
 }

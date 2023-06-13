@@ -6,6 +6,7 @@
 void init_list(struct List *list, Comparator compare, Printer print) {
     list->head = NULL;
     list->tail = &list->head;
+    list->length = 0;
     list->compare = compare;
     list->print = print;
 }
@@ -45,24 +46,59 @@ struct ListNode *insert_index(struct List *list, int index, struct ListNode *ite
     if (item->next == NULL) {
         list->tail = &item->next;
     }
+    ++list->length;
     return item;
 }
 
-struct ListNode *pop_index(struct List *list, int index) {
+struct ListNode *remove_index(struct List *list, int index) {
     struct ListNode **node_ptr = &list->head;
-    while (*node_ptr != NULL && index > 0) {
+    if (*node_ptr == NULL) return NULL;
+    
+    while (index > 0 && (*node_ptr)->next != NULL) {
         node_ptr = &(*node_ptr)->next;
         --index;
     }
+
+    if (index > 0) return NULL;  // Index out of range.
+    
     struct ListNode *item = *node_ptr;
-    if (item != NULL) {
-        *node_ptr = item->next;
-        item->next = NULL;
-    }
-    if (*list->tail == item) {
+    if (item->next == NULL) {
+        // Item is at end of list.
         list->tail = node_ptr;
     }
+    
+    *node_ptr = item->next;
+    item->next = NULL;
+    --list->length;
+
     return item;
+}
+
+void push_head(struct List *list, struct ListNode *item) {
+    item->next = list->head;
+    list->head = item;
+    ++list->length;
+}
+
+void push_tail(struct List *list, struct ListNode *item) {
+    item->next = NULL;
+    *list->tail = item;
+    list->tail = &item->next;
+    ++list->length;
+}
+
+struct ListNode *pop_head(struct List *list) {
+    if (list->head == NULL) return NULL;
+
+    struct ListNode *node = list->head;
+    list->head = node->next;
+    node->next = NULL;
+    --list->length;
+    return node;
+}
+
+struct ListNode *pop_tail(struct List *list) {
+    return remove_index(list, list->length - 1);
 }
 
 void print_list(struct List *list)  {
