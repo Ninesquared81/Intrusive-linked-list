@@ -53,20 +53,20 @@ struct ListNode *insert_index(struct List *list, int index, struct ListNode *ite
 struct ListNode *remove_index(struct List *list, int index) {
     struct ListNode **node_ptr = &list->head;
     if (*node_ptr == NULL) return NULL;
-    
+
     while (index > 0 && (*node_ptr)->next != NULL) {
         node_ptr = &(*node_ptr)->next;
         --index;
     }
 
     if (index > 0) return NULL;  // Index out of range.
-    
+
     struct ListNode *item = *node_ptr;
     if (item->next == NULL) {
         // Item is at end of list.
         list->tail = node_ptr;
     }
-    
+
     *node_ptr = item->next;
     item->next = NULL;
     --list->length;
@@ -168,11 +168,11 @@ struct List *divide_list(struct List *list, int n, struct List sublists[n]) {
 
 void print_list(struct List *list)  {
     for (struct ListNode **node_ptr = &list->head;
-        *node_ptr != NULL; 
-        node_ptr = &(*node_ptr)->next) {
-            printf("[ ");
-            list->print(*node_ptr);
-            printf(" ] -> ");
-        }
+         *node_ptr != NULL;
+         node_ptr = &(*node_ptr)->next) {
+        printf("[ ");
+        list->print(*node_ptr);
+        printf(" ] -> ");
+    }
     printf("NULL");
 }
