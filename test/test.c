@@ -14,6 +14,10 @@ static int compare(struct ListNode *a, struct ListNode *b) {
 }
 
 static void print(struct ListNode *node) {
+    if (node == NULL) {
+        printf("<null>");
+        return;
+    }
     printf("%d", NODE_TO_DATA(node, struct IntNode, node)->data);
 }
 
