@@ -59,6 +59,9 @@ struct ListNode *pop_index(struct List *list, int index) {
         *node_ptr = item->next;
         item->next = NULL;
     }
+    if (*list->tail == item) {
+        list->tail = node_ptr;
+    }
     return item;
 }
 
