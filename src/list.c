@@ -101,6 +101,43 @@ struct ListNode *pop_tail(struct List *list) {
     return remove_index(list, list->length - 1);
 }
 
+struct ListNode *insert_sublist(struct List *list, int start_index, struct List *sublist) {
+    struct ListNode **node_ptr = &list->head;
+    while (index > 0 && *node_ptr != NULL) {
+        node_ptr = &(*node_ptr)->next;
+        --index;
+    }
+    struct ListNode *next = *node_ptr;
+    *node_ptr = sublist->head;
+    list->length += sublist->length;
+    *sublist->tail = next;
+
+    return next;
+}
+
+struct List remove_sublist(struct List *list, int start_index, int length) {
+    struct List sublist;
+    init_list(&sublist, list->compare, list->print);
+    struct ListNode **node_ptr = &list->head;
+    while (start_index > 0 && node_ptr != NULL) {
+        node_ptr = &(*node_ptr)->next;
+        --start_index;
+    }
+    sublist->head = *node_ptr;
+    struct ListNode **next_ptr = node_ptr;
+    while (length > 0 && node_ptr != NULL) {
+        node_ptr = &(*node_ptr)->next;
+        // Note: these are done as increments/decrements rather than additions/subtractions
+        // so that a shorter list is handled correctly.
+        --length;
+        ++sublist->length;
+        --list->length;
+    }
+    sublist->tail = node_ptr;
+    *next_ptr = *node_ptr;
+    return sublist;
+}
+
 void print_list(struct List *list)  {
     for (struct ListNode **node_ptr = &list->head;
         *node_ptr != NULL; 
