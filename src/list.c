@@ -138,6 +138,34 @@ struct List remove_sublist(struct List *list, int start_index, int length) {
     return sublist;
 }
 
+void concatenate_lists(struct List *a, struct List *b) {
+    *a->tail = b->head;
+    a->tail = b->tail;
+    a->length += b->length;
+}
+
+struct List *divide_list(struct List *list, int n, struct List sublists[n]) {
+    if (n <= 0) {
+        // n must be positive.
+        return NULL;
+    }
+    const int length = list->length / n;
+    struct ListNode **node_ptr = &list->head;
+    for (struct ListNode *sublist = sublists; sublist < sublists + n; ++sublist ) {
+        init_list(sublist, list->compare, list->print);
+        sublist->head = *node_ptr;
+        for (int i = 0; i < length && *node_ptr != NULL; ++i) {
+            node_ptr = &(*node_ptr)->next;
+        }
+        sublist->tail = node_ptr;
+        sublist->length = length;
+    }
+    // Trailing items (if any) go into the last sublist.
+    sublist[n-1]->tail = list->tail;
+    sublist[n-1]->length += list->length % n;
+    return sublists;
+}
+
 void print_list(struct List *list)  {
     for (struct ListNode **node_ptr = &list->head;
         *node_ptr != NULL; 
