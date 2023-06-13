@@ -31,4 +31,12 @@ int main(void) {
         insert_index(&list, i, &nodes[i].node);
     }
     print_list(&list);
+    printf("\n");
+    for (int i = 0; i < 3; ++i) {
+        list.print(pop_index(&list, 3));
+        printf("\n");
+        print_list(&list);
+        printf("\n");
+    }
+    return 0;
 }
