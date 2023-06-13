@@ -13,7 +13,7 @@ void init_list(struct List *list, Comparator compare, Printer print) {
 
 struct ListNode *get_item(struct List *list, int index) {
     struct ListNode **node_ptr = &list->head;
-    while (*node_ptr != NULL && index > 0) {
+    while (node_ptr != list->tail && index > 0) {
         node_ptr = &(*node_ptr)->next;
         --index;
     }
@@ -23,7 +23,7 @@ struct ListNode *get_item(struct List *list, int index) {
 int find(struct List *list, struct ListNode *item) {
     struct ListNode **node_ptr = &list->head;
     int index = 0;
-    while (*node_ptr != NULL && list->compare(*node_ptr, item) != 0) {
+    while (node_ptr != list->tail && list->compare(*node_ptr, item) != 0) {
         node_ptr = &(*node_ptr)->next;
         ++index;
     }
@@ -33,7 +33,7 @@ int find(struct List *list, struct ListNode *item) {
 
 struct ListNode *insert_index(struct List *list, int index, struct ListNode *item) {
     struct ListNode **node_ptr = &list->head;
-    while (*node_ptr != NULL && index > 0) {
+    while (node_ptr != list->tail && index > 0) {
         node_ptr = &(*node_ptr)->next;
         --index;
     }
@@ -103,7 +103,7 @@ struct ListNode *pop_tail(struct List *list) {
 
 struct ListNode *insert_sublist(struct List *list, int start_index, struct List *sublist) {
     struct ListNode **node_ptr = &list->head;
-    while (index > 0 && *node_ptr != NULL) {
+    while (index > 0 && node_ptr != list->tail) {
         node_ptr = &(*node_ptr)->next;
         --index;
     }
@@ -154,7 +154,7 @@ struct List *divide_list(struct List *list, int n, struct List sublists[n]) {
     for (struct ListNode *sublist = sublists; sublist < sublists + n; ++sublist ) {
         init_list(sublist, list->compare, list->print);
         sublist->head = *node_ptr;
-        for (int i = 0; i < length && *node_ptr != NULL; ++i) {
+        for (int i = 0; i < length && node_ptr != list->tail; ++i) {
             node_ptr = &(*node_ptr)->next;
         }
         sublist->tail = node_ptr;
@@ -168,7 +168,7 @@ struct List *divide_list(struct List *list, int n, struct List sublists[n]) {
 
 void print_list(struct List *list)  {
     for (struct ListNode **node_ptr = &list->head;
-         *node_ptr != NULL;
+         node_ptr != list->tail;
          node_ptr = &(*node_ptr)->next) {
         printf("[ ");
         list->print(*node_ptr);
