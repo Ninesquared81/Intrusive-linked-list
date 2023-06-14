@@ -11,6 +11,10 @@ void init_list(struct List *list, Comparator compare, Printer print) {
     list->print = print;
 }
 
+void init_sublist(struct List *super, struct List *sub) {
+    init_list(sub, super->compare, super->print);
+}
+
 int index_of(struct List *list, struct ListNode **where) {
     struct ListNode **node_ptr = &list->head;
     int index = 0;
@@ -173,7 +177,7 @@ struct ListNode *insert_sublist(struct List *list, struct ListNode **start, stru
 
 struct List remove_sublist(struct List *list, struct ListNode **start, int length) {
     struct List sublist;
-    init_list(&sublist, list->compare, list->print);
+    init_sublist(list, &sublist);
     sublist.head = *start;    
 
     struct ListNode **node_ptr = start;
@@ -208,7 +212,7 @@ struct List *divide_list(struct List *list, int n, struct List sublists[n]) {
     const int length = list->length / n;
     struct ListNode **node_ptr = &list->head;
     for (struct List *sublist = sublists; sublist < sublists + n; ++sublist ) {
-        init_list(sublist, list->compare, list->print);
+        init_sublist(list, sublist);
         sublist->head = *node_ptr;
         for (int i = 0; i < length && node_ptr != list->tail; ++i) {
             node_ptr = &(*node_ptr)->next;

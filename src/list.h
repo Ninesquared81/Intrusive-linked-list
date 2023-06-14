@@ -26,6 +26,7 @@ struct List {
 
 
 void init_list(struct List *list, Comparator compare, Printer print);
+void init_sublist(struct List *super, struct List *sub);
 
 int index_of(struct List *list, struct ListNode **where);
 struct ListNode **where_index(struct List *list, int index);
