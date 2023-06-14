@@ -159,6 +159,9 @@ struct ListNode *insert_sublist(struct List *list, struct ListNode **start, stru
     *start = sublist->head;
     list->length += sublist->length;
     *sublist->tail = next;
+    if (start == list->tail) {
+        list->tail = sublist->tail;
+    }
 
     return next;
 }
@@ -166,7 +169,7 @@ struct ListNode *insert_sublist(struct List *list, struct ListNode **start, stru
 struct List remove_sublist(struct List *list, struct ListNode **start, int length) {
     struct List sublist;
     init_sublist(list, &sublist);
-    sublist.head = *start;    
+    sublist.head = *start;
 
     struct ListNode **node_ptr = start;
     while (length > 0 && *node_ptr != NULL) {
@@ -183,14 +186,13 @@ struct List remove_sublist(struct List *list, struct ListNode **start, int lengt
     return sublist;
 }
 
-struct List concatenate_lists(struct List *a, struct List *b) {
-    struct List list;
-    init_list(&list, a->compare, a->print);
+void extend_list(struct List *a, struct List *b) {
+    /*
     *a->tail = b->head;
-    list.head = a->head;
-    list.tail = b->tail;
-    list.length = a->length + b->length;
-    return list;
+    a->tail = b->tail;
+    a->length += b->length;
+    */
+    insert_sublist(a, a->tail, b);
 }
 
 struct List *divide_list(struct List *list, int n, struct List sublists[n]) {
