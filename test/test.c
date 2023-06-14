@@ -98,7 +98,7 @@ int main(void) {
 
     struct List new_list;
     init_list(&new_list, compare, print);
-    for (int i = 1; i <= 100; ++i) {
+    for (int i = 1; i <= 14; ++i) {
         push_tail(&new_list, (struct ListNode *)new_int_node(i));
     }
     struct List sublists[3];
@@ -108,20 +108,20 @@ int main(void) {
         print_list(&sublists[i]);
         printf("\n");
     }
-    struct List concatenated = concatenate_lists(&sublists[0], &sublists[2]);
-    concatenated = concatenate_lists(&sublists[1], &concatenated);
+    extend_list(&sublists[0], &sublists[2]);
+    extend_list(&sublists[1], &sublists[0]);
     printf("\nConcatenated:\n");
-    print_list(&concatenated);
+    print_list(&sublists[1]);
     printf("\n\n");
     printf("Start removing nodes.\n");
     {
         struct IntNode *node = NULL;
-        while (node = (struct IntNode *)pop_head(&concatenated)) {
+        while (node = (struct IntNode *)pop_head(&sublists[1])) {
             free(node);
         }
     }
     printf("Finish removing nodes.\n");
-    print_list(&concatenated);
+    print_list(&sublists[1]);
     printf("\n");
     struct List ordered;
     struct List revordered;
@@ -145,5 +145,13 @@ int main(void) {
     printf("\n");
     printf("\nReverse-ordered list:\n");
     print_list(&revordered);
+    printf("\n");
+
+    printf("\nUnsorted list:\n");
+    print_list(&list);
+    printf("\n");
+    quicksort_list(&list);
+    printf("\nSorted list:\n");
+    print_list(&list);
     printf("\n");
 }
