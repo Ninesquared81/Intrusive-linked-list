@@ -11,7 +11,7 @@ struct IntNode {
 static int compare(struct ListNode *a, struct ListNode *b) {
     struct IntNode *x = NODE_TO_DATA(a, struct IntNode, node);
     struct IntNode *y = NODE_TO_DATA(b, struct IntNode, node);
-    return x - y;
+    return x->data - y->data;
 }
 
 static void print(struct ListNode *node) {
@@ -123,5 +123,27 @@ int main(void) {
     printf("Finish removing nodes.\n");
     print_list(&concatenated);
     printf("\n");
-    return 0;
+    struct List ordered;
+    struct List revordered;
+    init_list(&ordered, compare, print);
+    init_list(&revordered, compare, print);
+    int elems[] = {-4, 10, 12, 13, -6, 0, 0, 3, 4, -7, -4, 5};
+#define LENGTH sizeof elems / sizeof elems[0]
+    struct IntNode n1[LENGTH], n2[LENGTH];
+    for (int i = 0; i < LENGTH; ++i) {
+        n1[i].data = elems[i];
+        n2[i].data = elems[i];
+        insert_inorder(&ordered, (struct ListNode *)&n1[i]);
+        insert_inorder_reverse(&revordered, (struct ListNode *)&n2[i]);
+    }
+    printf("\nOrdered list:\n");
+    print_list(&ordered);
+    printf("\n");
+    list.print(remove_inorder(&ordered, (struct ListNode *)&(struct IntNode){.data = 12}));
+    printf("\n");
+    print_list(&ordered);
+    printf("\n");
+    printf("\nReverse-ordered list:\n");
+    print_list(&revordered);
+    printf("\n");
 }
