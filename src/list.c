@@ -219,12 +219,45 @@ struct List *divide_list(struct List *list, int n, struct List sublists[n]) {
     // Trailing items (if any) go into the last sublist.
     sublists[n-1].tail = list->tail;
     sublists[n-1].length += list->length % n;
+    for (struct List *sublist = sublists; sublist < sublists + n; ++sublist) {
+        *sublist->tail = NULL;
+    }
     return sublists;
 }
 
+void quicksort_list(struct List *list) {
+    if (list->length <= 1) return;  // An empty or single-element list is trivally sorted.
+    struct List left;
+    struct List right;
+    init_sublist(list, &left);
+    init_sublist(list, &right);
+
+    struct ListNode *pivot = pop_head(list);
+
+    /* Partition list */
+    struct ListNode *current;
+    while ((current = pop_head(list)) != NULL) {
+        if (list->compare(current, pivot) < 0) {
+            push_tail(&left, current);
+        }
+        else {
+            push_tail(&right, current);
+        }
+    }
+    /* Sort sublists */
+    quicksort_list(&left);
+    quicksort_list(&right);
+
+    /* Rebuild list */
+    extend_list(list, &left);
+    push_tail(list, pivot);
+    extend_list(list, &right);
+}
+
 void print_list(struct List *list)  {
+    printf("HEAD -> ");
     for (struct ListNode **node_ptr = &list->head;
-         node_ptr != list->tail;
+         *node_ptr != NULL;
          node_ptr = &(*node_ptr)->next) {
         printf("[ ");
         list->print(*node_ptr);

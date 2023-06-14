@@ -57,8 +57,10 @@ struct ListNode *pop_tail(struct List *list);
 struct ListNode *insert_sublist(struct List *list, struct ListNode **start, struct List *sublist);
 struct List remove_sublist(struct List *list, struct ListNode **start, int length);
 
-struct List concatenate_lists(struct List *a, struct List *b);
+void extend_list(struct List *a, struct List *b);
 struct List *divide_list(struct List *list, int n, struct List sublists[n]);
+
+void quicksort_list(struct List *list);
 
 void print_list(struct List *list);
 
