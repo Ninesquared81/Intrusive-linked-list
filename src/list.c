@@ -46,6 +46,22 @@ struct ListNode **find(struct List *list, struct ListNode *item) {
     return node_ptr;
 }
 
+struct ListNode **find_inorder(struct List *list, struct ListNode *item) {
+    struct ListNode **node_ptr = &list->head;
+    while (node_ptr != list->tail && list->compare(*node_ptr, item) < 0) {
+        node_ptr = &(*node_ptr)->next;
+    }
+    return node_ptr;
+}
+
+struct ListNode **find_inorder_reverse(struct List *list, struct ListNode *item) {
+    struct ListNode **node_ptr = &list->head;
+    while (node_ptr != list->tail && list->compare(*node_ptr, item) > 0) {
+        node_ptr = &(*node_ptr)->next;
+    }
+    return node_ptr;
+}
+
 struct ListNode *insert_at(struct List *list, struct ListNode **where, struct ListNode *item) {
     item->next = *where;
     if (where == list->tail) {
@@ -69,7 +85,33 @@ struct ListNode *remove_at(struct List *list, struct ListNode **where) {
 
     return item;
 }
-    
+
+struct ListNode *insert_inorder(struct List *list, struct ListNode *item) {
+    struct ListNode **where = find_inorder(list, item);
+    return insert_at(list, where, item);
+}
+
+struct ListNode *insert_inorder_reverse(struct List *list, struct ListNode *item) {
+    struct ListNode **where = find_inorder_reverse(list, item);
+    return insert_at(list, where, item);
+}
+
+struct ListNode *remove_inorder(struct List *list, struct ListNode *item) {
+    struct ListNode **where = find_inorder(list, item);
+    if (list->compare(*where, item) != 0) {
+        // Item was not in list.
+        return NULL;
+    }
+    return remove_at(list, where);
+}
+
+struct ListNode *remove_inorder_reverse(struct List *list, struct ListNode *item) {
+    struct ListNode **where = find_inorder_reverse(list, item);
+    if (list->compare(*where, item) != 0) {
+        return NULL;
+    }
+    return remove_at(list, where);
+}
 
 struct ListNode *insert_index(struct List *list, int index, struct ListNode *item) {
     struct ListNode **where = where_index(list, index);
@@ -82,6 +124,11 @@ struct ListNode *remove_index(struct List *list, int index) {
     struct ListNode **where = where_index(list, index);
     if (where == NULL) return NULL;
 
+    return remove_at(list, where);
+}
+
+struct ListNode *remove_item(struct List *list, struct ListNode *item) {
+    struct ListNode **where = find(list, item);
     return remove_at(list, where);
 }
 

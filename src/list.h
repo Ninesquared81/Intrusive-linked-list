@@ -33,11 +33,21 @@ struct ListNode **where_index(struct List *list, int index);
 struct ListNode *get_item(struct List *list, int index);
 struct ListNode **find(struct List *list, struct ListNode *item);
 
+struct ListNode **find_inorder(struct List *list, struct ListNode *item);
+struct ListNode **find_inorder_reverse(struct List *list, struct ListNode *item);
+
 struct ListNode *insert_at(struct List *list, struct ListNode **where, struct ListNode *item);
 struct ListNode *remove_at(struct List *list, struct ListNode **where);
 
+struct ListNode *insert_inorder(struct List *list, struct ListNode *item);
+struct ListNode *insert_inorder_reverse(struct List *list, struct ListNode *item);
+struct ListNode *remove_inorder(struct List *list, struct ListNode *item);
+struct ListNode *remove_inorder_reverse(struct List *list, struct ListNode *item);
+
 struct ListNode *insert_index(struct List *list, int index, struct ListNode *item);
 struct ListNode *remove_index(struct List *list, int index);
+
+struct ListNode *remove_item(struct List *list, struct ListNode *item);
 
 void push_head(struct List *list, struct ListNode *item);
 void push_tail(struct List *list, struct ListNode *item);
