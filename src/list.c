@@ -18,7 +18,7 @@ void init_sublist(struct List *super, struct List *sub) {
 int index_of(struct List *list, struct ListNode **where) {
     struct ListNode **node_ptr = &list->head;
     int index = 0;
-    while (node_ptr != where && node_ptr != list->tail) {
+    while (node_ptr != where && *node_ptr != NULL) {
         node_ptr = &(*node_ptr)->next;
         ++index;
     }
@@ -28,7 +28,7 @@ int index_of(struct List *list, struct ListNode **where) {
 
 struct ListNode **where_index(struct List *list, int index) {
     struct ListNode **node_ptr = &list->head;
-    while(index > 0 && node_ptr != list->tail) {
+    while(index > 0 && *node_ptr != NULL) {
         node_ptr = &(*node_ptr)->next;
         --index;
     }
@@ -44,7 +44,7 @@ struct ListNode *get_item(struct List *list, int index) {
 
 struct ListNode **find(struct List *list, struct ListNode *item) {
     struct ListNode **node_ptr = &list->head;
-    while (node_ptr != list->tail && list->compare(*node_ptr, item) != 0) {
+    while (*node_ptr != NULL && list->compare(*node_ptr, item) != 0) {
         node_ptr = &(*node_ptr)->next;
     }
     return node_ptr;
@@ -52,7 +52,7 @@ struct ListNode **find(struct List *list, struct ListNode *item) {
 
 struct ListNode **find_inorder(struct List *list, struct ListNode *item) {
     struct ListNode **node_ptr = &list->head;
-    while (node_ptr != list->tail && list->compare(*node_ptr, item) < 0) {
+    while (*node_ptr != NULL && list->compare(*node_ptr, item) < 0) {
         node_ptr = &(*node_ptr)->next;
     }
     return node_ptr;
@@ -60,7 +60,7 @@ struct ListNode **find_inorder(struct List *list, struct ListNode *item) {
 
 struct ListNode **find_inorder_reverse(struct List *list, struct ListNode *item) {
     struct ListNode **node_ptr = &list->head;
-    while (node_ptr != list->tail && list->compare(*node_ptr, item) > 0) {
+    while (*node_ptr != NULL && list->compare(*node_ptr, item) > 0) {
         node_ptr = &(*node_ptr)->next;
     }
     return node_ptr;
@@ -169,7 +169,7 @@ struct List remove_sublist(struct List *list, struct ListNode **start, int lengt
     sublist.head = *start;    
 
     struct ListNode **node_ptr = start;
-    while (length > 0 && node_ptr != list->tail) {
+    while (length > 0 && *node_ptr != NULL) {
         node_ptr = &(*node_ptr)->next;
         // Note: these are done as increments/decrements rather than additions/subtractions
         // so that a shorter list is handled correctly.
@@ -179,6 +179,7 @@ struct List remove_sublist(struct List *list, struct ListNode **start, int lengt
     }
     sublist.tail = node_ptr;
     *start = *node_ptr;
+    *sublist.tail = NULL;
     return sublist;
 }
 
@@ -202,7 +203,7 @@ struct List *divide_list(struct List *list, int n, struct List sublists[n]) {
     for (struct List *sublist = sublists; sublist < sublists + n; ++sublist ) {
         init_sublist(list, sublist);
         sublist->head = *node_ptr;
-        for (int i = 0; i < length && node_ptr != list->tail; ++i) {
+        for (int i = 0; i < length && *node_ptr != NULL; ++i) {
             node_ptr = &(*node_ptr)->next;
         }
         sublist->tail = node_ptr;
