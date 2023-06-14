@@ -137,29 +137,17 @@ struct ListNode *remove_item(struct List *list, struct ListNode *item) {
 }
 
 void push_head(struct List *list, struct ListNode *item) {
-    item->next = list->head;
-    list->head = item;
-    ++list->length;
+    insert_at(list, &list->head, item);
 }
 
 void push_tail(struct List *list, struct ListNode *item) {
-    item->next = NULL;
-    *list->tail = item;
-    list->tail = &item->next;
-    ++list->length;
+    insert_at(list, list->tail, item);
 }
 
 struct ListNode *pop_head(struct List *list) {
     if (list->length == 0) return NULL;
 
-    struct ListNode *node = list->head;
-    list->head = node->next;
-    node->next = NULL;
-    --list->length;
-    if (list->length == 0) {
-        list->tail = &list->head;
-    }
-    return node;
+    return remove_at(list, &list->head);
 }
 
 struct ListNode *pop_tail(struct List *list) {
