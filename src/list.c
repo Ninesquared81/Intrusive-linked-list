@@ -155,6 +155,8 @@ struct ListNode *pop_tail(struct List *list) {
 }
 
 struct ListNode *insert_sublist(struct List *list, struct ListNode **start, struct List *sublist) {
+    if (sublist->length == 0) return NULL;
+
     struct ListNode *next = *start;
     *start = sublist->head;
     list->length += sublist->length;
@@ -169,6 +171,11 @@ struct ListNode *insert_sublist(struct List *list, struct ListNode **start, stru
 struct List remove_sublist(struct List *list, struct ListNode **start, int length) {
     struct List sublist;
     init_sublist(list, &sublist);
+    if (length == 0) {
+        /* Return empty list. */
+        return sublist;
+    }
+
     sublist.head = *start;
 
     struct ListNode **node_ptr = start;
