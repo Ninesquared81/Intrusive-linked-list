@@ -286,6 +286,21 @@ void quicksort_list_reverse(struct List *list) {
     extend_list(list, &right);
 }
 
+void reverse_list(struct List *list) {
+    if (list->length <= 1) return;
+
+    struct ListNode *prev = NULL;
+    struct ListNode *curr = list->head;
+    while (curr != NULL) {
+        struct ListNode *next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+    list->tail = &list->head->next;
+    list->head = prev;
+}
+
 struct List copy_list(struct List *list, void *nodebuf, size_t bufsize, size_t elemsize, size_t offset) {
     struct List out_list;
     init_sublist(list, &out_list);
