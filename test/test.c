@@ -147,11 +147,33 @@ int main(void) {
     print_list(&revordered);
     printf("\n");
 
+    struct IntNode n3[LENGTH/2];
+    for (int i = 0; i < LENGTH / 2; ++i) {
+        n3[i].data = elems[i];
+        push_tail(&list, (struct ListNode *)&n3[i]);
+    }
+    size_t bufsize = list.length * sizeof(struct IntNode);
+    struct IntNode *buffer = malloc(bufsize);
+    struct List list2 = copy_list(&list, buffer, bufsize, sizeof *buffer, 0);
     printf("\nUnsorted list:\n");
     print_list(&list);
+    printf("\n");
+    printf("\nCopied list:\n");
+    print_list(&list2);
     printf("\n");
     quicksort_list(&list);
     printf("\nSorted list:\n");
     print_list(&list);
     printf("\n");
+    quicksort_list_reverse(&list2);
+    printf("\nReverse-sorted list:\n");
+    print_list(&list2);
+    printf("\n");
+
+    reverse_list(&list2);
+    printf("\nPrevious list reversed:\n");
+    print_list(&list2);
+    printf("\n");
+
+    free(buffer);
 }
