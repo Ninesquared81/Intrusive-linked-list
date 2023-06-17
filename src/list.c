@@ -1,5 +1,6 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "list.h"
 
@@ -283,6 +284,30 @@ void quicksort_list_reverse(struct List *list) {
     extend_list(list, &left);
     push_tail(list, pivot);
     extend_list(list, &right);
+}
+
+struct List copy_list(struct List *list, void *nodebuf, size_t bufsize, size_t elemsize, size_t offset) {
+    struct List out_list;
+    init_sublist(list, &out_list);
+    if (bufsize < elemsize) return out_list;
+
+    unsigned char *out_node = nodebuf;
+    size_t bytes_written = 0;
+    struct ListNode **out_node_ptr = &out_list.head;
+    for (struct ListNode **node_ptr = &list->head;
+         *node_ptr != NULL && bytes_written + elemsize <= bufsize;
+         node_ptr = &(*node_ptr)->next) {
+        memcpy(out_node, *node_ptr, elemsize);
+        *out_node_ptr = (struct ListNode *)(out_node + offset);
+        out_node_ptr = &(*out_node_ptr)->next;
+        ++out_list.length;
+
+        bytes_written += elemsize;
+        out_node += elemsize;
+    }
+    *out_node_ptr = NULL;
+    out_list.tail = out_node_ptr;
+    return out_list;
 }
 
 void print_list(struct List *list)  {

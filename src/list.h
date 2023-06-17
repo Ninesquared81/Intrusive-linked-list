@@ -64,6 +64,8 @@ struct List *divide_list(struct List *list, int n, struct List sublists[n]);
 void quicksort_list(struct List *list);
 void quicksort_list_reverse(struct List *list);
 
+struct List copy_list(struct List *list, void *nodebuf, size_t bufsize, size_t elemsize, size_t offset);
+
 void print_list(struct List *list);
 
 #endif
