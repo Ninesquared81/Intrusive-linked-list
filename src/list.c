@@ -256,6 +256,35 @@ void quicksort_list(struct List *list) {
     extend_list(list, &right);
 }
 
+void quicksort_list_reverse(struct List *list) {
+    if (list->length <= 1) return;
+    struct List left;
+    struct List right;
+    init_sublist(list, &left);
+    init_sublist(list, &right);
+
+    struct ListNode *pivot = pop_head(list);
+
+    /* Partition List */
+    struct ListNode *current;
+    while ((current = pop_head(list)) != NULL) {
+        if (list->compare(current, pivot) > 0) {
+            push_tail(&left, current);
+        }
+        else {
+            push_tail(&right, current);
+        }
+    }
+    /* Sort sublists */
+    quicksort_list_reverse(&left);
+    quicksort_list_reverse(&right);
+
+    /* Rebuild list */
+    extend_list(list, &left);
+    push_tail(list, pivot);
+    extend_list(list, &right);
+}
+
 void print_list(struct List *list)  {
     printf("HEAD -> ");
     for (struct ListNode **node_ptr = &list->head;

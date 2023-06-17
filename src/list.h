@@ -62,6 +62,7 @@ void extend_list(struct List *a, struct List *b);
 struct List *divide_list(struct List *list, int n, struct List sublists[n]);
 
 void quicksort_list(struct List *list);
+void quicksort_list_reverse(struct List *list);
 
 void print_list(struct List *list);
 
