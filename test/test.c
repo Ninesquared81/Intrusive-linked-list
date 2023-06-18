@@ -185,7 +185,7 @@ int main(void) {
            ordered.length, revordered.length,
            (lists_equal(&ordered, &revordered)) ? "true" : "false");
     printf("\nComparing two lists of different lengths:\n");
-    printf("list (length: %d) == ordered (length: %d): \n",
+    printf("list (length: %d) == ordered (length: %d): %s\n",
            list.length, ordered.length,
            (lists_equal(&list, &ordered)) ? "true" : "false");
 
