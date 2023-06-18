@@ -176,7 +176,18 @@ int main(void) {
     printf("\n");
 
     printf("\nComapring two lists:\n");
-    printf("list == list2: %s\n", (lists_equal(&list, &list2)) ? "true": "false");
+    printf("list (length: %d) == list2 (length: %d): %s\n",
+           list.length, list2.length,
+           (lists_equal(&list, &list2)) ? "true": "false");
+    remove_inorder_reverse(&revordered, (struct ListNode *)&(struct IntNode){.data = 12});
+    printf("\nComapring different lists:\n");
+    printf("ordered (length: %d) == revordered (length: %d): %s\n",
+           ordered.length, revordered.length,
+           (lists_equal(&ordered, &revordered)) ? "true" : "false");
+    printf("\nComparing two lists of different lengths:\n");
+    printf("list (length: %d) == ordered (length: %d): \n",
+           list.length, ordered.length,
+           (lists_equal(&list, &ordered)) ? "true" : "false");
 
     free(buffer);
 }
