@@ -66,7 +66,7 @@ int main(void) {
     push_head(&list, (struct ListNode *)&(struct IntNode){.data = 69});
     print_list(&list);
     printf("\n");
-    
+
     printf("Insert at end (not using special function) 420:\n");
     insert_index(&list, list.length, (struct ListNode *)&(struct IntNode){.data = 420});
     print_list(&list);
@@ -174,6 +174,9 @@ int main(void) {
     printf("\nPrevious list reversed:\n");
     print_list(&list2);
     printf("\n");
+
+    printf("\nComapring two lists:\n");
+    printf("list == list2: %s\n", (lists_equal(&list, &list2)) ? "true": "false");
 
     free(buffer);
 }
