@@ -66,6 +66,7 @@ void quicksort_list_reverse(struct List *list);
 
 void reverse_list(struct List *list);
 struct List copy_list(struct List *list, void *nodebuf, size_t bufsize, size_t elemsize, size_t offset);
+_Bool lists_equal(const struct List *a, const struct List *b);
 
 void print_list(struct List *list);
 

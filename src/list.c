@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -323,6 +324,21 @@ struct List copy_list(struct List *list, void *nodebuf, size_t bufsize, size_t e
     *out_node_ptr = NULL;
     out_list.tail = out_node_ptr;
     return out_list;
+}
+
+bool lists_equal(const struct List *a, const struct List *b) {
+    if (a->length != b->length) return false;
+
+    struct ListNode *const *node_ptr_a = &a->head;
+    struct ListNode *const *node_ptr_b = &b->head;
+    while (*node_ptr_a != NULL) {
+        if (a->compare(*node_ptr_a, *node_ptr_b) != 0) {
+            return false;
+        }
+        node_ptr_a = &(*node_ptr_a)->next;
+        node_ptr_b = &(*node_ptr_b)->next;
+    }
+    return true;
 }
 
 void print_list(struct List *list)  {
