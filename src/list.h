@@ -3,13 +3,13 @@
 
 #include <stddef.h>
 
-#define NODE_TO_DATA(node, type, member) \
+#define NODE_TO_DATA(node, type, member)                                \
     ((type *)( (unsigned char *)node - offsetof(type, member) ))
 
 struct ListNode;
 
-typedef int (*Comparator)(struct ListNode *a, struct ListNode *b);
-typedef void (*Printer)(struct ListNode *node);
+typedef int (*Comparator)(const struct ListNode *a, const struct ListNode *b);
+typedef void (*Printer)(const struct ListNode *node);
 
 
 struct ListNode {
@@ -26,16 +26,16 @@ struct List {
 
 
 void init_list(struct List *list, Comparator compare, Printer print);
-void init_sublist(struct List *super, struct List *sub);
+void init_sublist(const struct List *super, struct List *sub);
 
-int index_of(struct List *list, struct ListNode **where);
-struct ListNode **where_index(struct List *list, int index);
+int index_of(const struct List *list, struct ListNode *const *where);
+struct ListNode **where_index(const struct List *list, int index);
 
-struct ListNode *get_item(struct List *list, int index);
-struct ListNode **find(struct List *list, struct ListNode *item);
+struct ListNode *get_item(const struct List *list, int index);
+struct ListNode **find(const struct List *list, const struct ListNode *item);
 
-struct ListNode **find_inorder(struct List *list, struct ListNode *item);
-struct ListNode **find_inorder_reverse(struct List *list, struct ListNode *item);
+struct ListNode **find_inorder(const struct List *list, const struct ListNode *item);
+struct ListNode **find_inorder_reverse(const struct List *list, const struct ListNode *item);
 
 struct ListNode *insert_at(struct List *list, struct ListNode **where, struct ListNode *item);
 struct ListNode *remove_at(struct List *list, struct ListNode **where);
@@ -65,9 +65,10 @@ void quicksort_list(struct List *list);
 void quicksort_list_reverse(struct List *list);
 
 void reverse_list(struct List *list);
-struct List copy_list(struct List *list, void *nodebuf, size_t bufsize, size_t elemsize, size_t offset);
+struct List copy_list(const struct List *list, void *nodebuf, size_t bufsize, size_t elemsize, size_t offset);
+
 _Bool lists_equal(const struct List *a, const struct List *b);
 
-void print_list(struct List *list);
+void print_list(const struct List *list);
 
 #endif

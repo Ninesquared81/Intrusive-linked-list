@@ -13,12 +13,12 @@ void init_list(struct List *list, Comparator compare, Printer print) {
     list->print = print;
 }
 
-void init_sublist(struct List *super, struct List *sub) {
+void init_sublist(const struct List *super, struct List *sub) {
     init_list(sub, super->compare, super->print);
 }
 
-int index_of(struct List *list, struct ListNode **where) {
-    struct ListNode **node_ptr = &list->head;
+int index_of(const struct List *list, struct ListNode *const *where) {
+    struct ListNode *const *node_ptr = &list->head;
     int index = 0;
     while (node_ptr != where && *node_ptr != NULL) {
         node_ptr = &(*node_ptr)->next;
@@ -28,44 +28,44 @@ int index_of(struct List *list, struct ListNode **where) {
     return index;
 }
 
-struct ListNode **where_index(struct List *list, int index) {
-    struct ListNode **node_ptr = &list->head;
+struct ListNode **where_index(const struct List *list, int index) {
+    struct ListNode *const *node_ptr = &list->head;
     while(index > 0 && *node_ptr != NULL) {
         node_ptr = &(*node_ptr)->next;
         --index;
     }
     if (index != 0) return NULL;
-    return node_ptr;
+    return (struct ListNode**)node_ptr;
 }
 
-struct ListNode *get_item(struct List *list, int index) {
+struct ListNode *get_item(const struct List *list, int index) {
     struct ListNode **node_ptr = where_index(list, index);
     if (node_ptr == NULL) return NULL;
     return *node_ptr;
 }
 
-struct ListNode **find(struct List *list, struct ListNode *item) {
-    struct ListNode **node_ptr = &list->head;
+struct ListNode **find(const struct List *list, const struct ListNode *item) {
+    struct ListNode *const *node_ptr = &list->head;
     while (*node_ptr != NULL && list->compare(*node_ptr, item) != 0) {
         node_ptr = &(*node_ptr)->next;
     }
-    return node_ptr;
+    return (struct ListNode **)node_ptr;
 }
 
-struct ListNode **find_inorder(struct List *list, struct ListNode *item) {
-    struct ListNode **node_ptr = &list->head;
+struct ListNode **find_inorder(const struct List *list, const struct ListNode *item) {
+    struct ListNode *const *node_ptr = &list->head;
     while (*node_ptr != NULL && list->compare(*node_ptr, item) < 0) {
         node_ptr = &(*node_ptr)->next;
     }
-    return node_ptr;
+    return (struct ListNode **)node_ptr;
 }
 
-struct ListNode **find_inorder_reverse(struct List *list, struct ListNode *item) {
-    struct ListNode **node_ptr = &list->head;
+struct ListNode **find_inorder_reverse(const struct List *list, const struct ListNode *item) {
+    struct ListNode *const *node_ptr = &list->head;
     while (*node_ptr != NULL && list->compare(*node_ptr, item) > 0) {
         node_ptr = &(*node_ptr)->next;
     }
-    return node_ptr;
+    return (struct ListNode **)node_ptr;
 }
 
 struct ListNode *insert_at(struct List *list, struct ListNode **where, struct ListNode *item) {
@@ -197,9 +197,9 @@ struct List remove_sublist(struct List *list, struct ListNode **start, int lengt
 
 void extend_list(struct List *a, struct List *b) {
     /*
-    *a->tail = b->head;
-    a->tail = b->tail;
-    a->length += b->length;
+     *a->tail = b->head;
+     a->tail = b->tail;
+     a->length += b->length;
     */
     insert_sublist(a, a->tail, b);
 }
@@ -302,7 +302,7 @@ void reverse_list(struct List *list) {
     list->head = prev;
 }
 
-struct List copy_list(struct List *list, void *nodebuf, size_t bufsize, size_t elemsize, size_t offset) {
+struct List copy_list(const struct List *list, void *nodebuf, size_t bufsize, size_t elemsize, size_t offset) {
     struct List out_list;
     init_sublist(list, &out_list);
     if (bufsize < elemsize) return out_list;
@@ -310,7 +310,7 @@ struct List copy_list(struct List *list, void *nodebuf, size_t bufsize, size_t e
     unsigned char *out_node = nodebuf;
     size_t bytes_written = 0;
     struct ListNode **out_node_ptr = &out_list.head;
-    for (struct ListNode **node_ptr = &list->head;
+    for (struct ListNode *const *node_ptr = &list->head;
          *node_ptr != NULL && bytes_written + elemsize <= bufsize;
          node_ptr = &(*node_ptr)->next) {
         memcpy(out_node, *node_ptr, elemsize);
@@ -341,9 +341,9 @@ bool lists_equal(const struct List *a, const struct List *b) {
     return true;
 }
 
-void print_list(struct List *list)  {
+void print_list(const struct List *list)  {
     printf("HEAD -> ");
-    for (struct ListNode **node_ptr = &list->head;
+    for (struct ListNode *const *node_ptr = &list->head;
          *node_ptr != NULL;
          node_ptr = &(*node_ptr)->next) {
         printf("[ ");

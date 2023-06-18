@@ -8,13 +8,13 @@ struct IntNode {
     int data;
 };
 
-static int compare(struct ListNode *a, struct ListNode *b) {
+static int compare(const struct ListNode *a, const struct ListNode *b) {
     struct IntNode *x = NODE_TO_DATA(a, struct IntNode, node);
     struct IntNode *y = NODE_TO_DATA(b, struct IntNode, node);
     return x->data - y->data;
 }
 
-static void print(struct ListNode *node) {
+static void print(const struct ListNode *node) {
     if (node == NULL) {
         printf("<null>");
         return;
